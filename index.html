@@ -3,1097 +3,518 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EasyToPayShop - ร้านกระเป๋าออนไลน์</title>
-    <meta name="description" content="ร้านกระเป๋าออนไลน์คุณภาพดี มีกระเป๋าถือ สะพายข้าง เป้ และกระเป๋าสตางค์ หลากหลายสไตล์">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'thai': ['Sarabun', 'sans-serif']
-                    }
-                }
+    <title>สินค้าแนะนำ - แคตตาล็อกสินค้า</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #4a5568;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+
+        .search-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .search-box {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+        }
+
+        .results-info {
+            text-align: center;
+            margin: 20px 0;
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 400px;
+            min-width: 300px;
+            object-fit: cover;
+            background: #f7fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #a0aec0;
+            font-size: 14px;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .product-code {
+            color: #718096;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            font-family: 'Courier New', monospace;
+            background: #f7fafc;
+            padding: 4px 8px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .shopee-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #ee4d2d, #ff6b35);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .shopee-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(238, 77, 45, 0.4);
+        }
+
+        .shopee-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .page-btn {
+            padding: 10px 15px;
+            border: 2px solid #e2e8f0;
+            background: white;
+            color: #4a5568;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            min-width: 45px;
+            text-align: center;
+        }
+
+        .page-btn:hover {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .page-btn.active {
+            background: #667eea;
+            border-color: #667eea;
+            color: white;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page-btn:disabled:hover {
+            border-color: #e2e8f0;
+            background: white;
+            color: #4a5568;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #718096;
+        }
+
+        .no-results-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .no-results h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #4a5568;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+
+            .pagination {
+                gap: 5px;
+            }
+
+            .page-btn {
+                padding: 8px 12px;
+                min-width: 40px;
             }
         }
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>
-/* แก้ไขส่วน CSS สำหรับ color options */
-/* แก้ไข CSS สำหรับ color options */
-.color-options-container {
-    position: relative;
-    width: 100%;
-    overflow: visible;
-    margin-bottom: 1rem; /* เพิ่มระยะห่างด้านล่าง */
-}
 
-.color-options-scroll {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    gap: 0.5rem;
-    padding: 0.25rem;
-}
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
 
-.color-option {
-    padding: 0.5rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.375rem;
-    font-size: 0.875rem;
-    text-align: center;
-    transition: all 0.2s;
-}
-
-.color-option.selected {
-    background-color: #111827;
-    color: white;
-    border-color: #111827;
-}
-
-/* ซ่อน scrollbar */
-.color-options-container::-webkit-scrollbar {
-    display: none;
-}
-</style>
+            .search-input {
+                font-size: 16px; /* Prevent zoom on iOS */
+            }
+        }
+    </style>
 </head>
-<body class="bg-gray-50 font-thai">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <h1 class="text-xl font-bold text-gray-900 cursor-pointer" onclick="showPage('home')">EasyToPay</h1>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <button onclick="showPage('products')" class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">สินค้าทั้งหมด</button>
-                    <button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-gray-900">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h12M7 13h10m-10 0L5.4 5M7 13l1.5 6"></path>
-                        </svg>
-                        <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
-                    </button>
-                </div>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🛍️ สินค้าแนะนำ</h1>
+            <p>ค้นหาและเลือกซื้อสินค้าคุณภาพดีได้ที่นี่</p>
+        </div>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" id="searchInput" class="search-input" placeholder="ค้นหาสินค้าหรือรหัสสินค้า...">
+                <div class="search-icon">🔍</div>
             </div>
         </div>
-    </nav>
 
-    <!-- Main Content -->
-    <main id="main-content">
-        <!-- Home Page -->
-        <div id="home-page" class="page">
-            <!-- Hero Section -->
-            <section class="bg-gradient-to-r from-gray-900 to-gray-700 text-white py-16 px-4">
-                <div class="max-w-4xl mx-auto text-center">
-                    <h2 class="text-3xl md:text-5xl font-bold mb-4">กระเป๋าคุณภาพดี</h2>
-                    <p class="text-lg md:text-xl mb-8 text-gray-200">เลือกสรรกระเป๋าสไตล์ใหม่ ทันสมัย คุณภาพเยี่ยม</p>
-                    <button onclick="showPage('products')" class="bg-white text-gray-900 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-                        ดูสินค้าทั้งหมด
-                    </button>
-                </div>
-            </section>
+        <!-- Results Info -->
+        <div id="resultsInfo" class="results-info"></div>
 
-            <!-- Categories -->
-            <section class="py-12 px-4">
-                <div class="max-w-6xl mx-auto">
-                    <h3 class="text-2xl font-bold text-center mb-8">หมวดหมู่สินค้า</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-    <div class="bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer hover:shadow-md transition-shadow" onclick="filterByCategory('handbag')">
-        <div class="category-image">
-            <img src="photo/handbag.jpg" alt="กระเป๋าถือ" class="w-full h-full object-cover">
+        <!-- Products Grid -->
+        <div id="productsGrid" class="products-grid"></div>
+
+        <!-- No Results -->
+        <div id="noResults" class="no-results" style="display: none;">
+            <div class="no-results-icon">😔</div>
+            <h3>ไม่พบสินค้า</h3>
+            <p>ลองค้นหาด้วยคำอื่น หรือตรวจสอบการสะกดอีกครั้ง</p>
         </div>
-        <div class="p-4 text-center">
-            <h4 class="font-semibold">กระเป๋าถือ</h4>
-        </div>
+
+        <!-- Pagination -->
+        <div id="pagination" class="pagination"></div>
     </div>
-    <div class="bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer hover:shadow-md transition-shadow" onclick="filterByCategory('crossbody')">
-        <div class="category-image">
-            <img src="photo/crossbody.jpg" alt="กระเป๋าสะพายข้าง" class="w-full h-full object-cover">
-        </div>
-        <div class="p-4 text-center">
-            <h4 class="font-semibold">สะพายข้าง</h4>
-        </div>
-    </div>
-    <div class="bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer hover:shadow-md transition-shadow" onclick="filterByCategory('backpack')">
-        <div class="category-image">
-            <img src="photo/backpack.jpg" alt="กระเป๋าเป้" class="w-full h-full object-cover">
-        </div>
-        <div class="p-4 text-center">
-            <h4 class="font-semibold">กระเป๋าเป้</h4>
-        </div>
-    </div>
-    <div class="bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer hover:shadow-md transition-shadow" onclick="filterByCategory('wallet')">
-        <div class="category-image">
-            <img src="photo/wallet.jpg" alt="กระเป๋าสตางค์" class="w-full h-full object-cover">
-        </div>
-        <div class="p-4 text-center">
-            <h4 class="font-semibold">กระเป๋าสตางค์</h4>
-        </div>
-    </div>
-</div>
-                </div>
-            </section>
-
-            <!-- Featured Products -->
-            <section class="py-12 px-4 bg-white">
-                <div class="max-w-6xl mx-auto">
-                    <h3 class="text-2xl font-bold text-center mb-8">สินค้าแนะนำ</h3>
-                    <div id="featured-products" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        <!-- Products will be loaded here -->
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- Products Page -->
-        <div id="products-page" class="page hidden">
-            <div class="max-w-7xl mx-auto px-4 py-8">
-                <h2 class="text-2xl font-bold mb-6">สินค้าทั้งหมด</h2>
-                
-                <!-- Filters -->
-                <div class="bg-white p-4 rounded-lg shadow-sm mb-6">
-                    <div class="flex flex-col md:flex-row gap-4">
-                        <div class="flex-1">
-                            <label class="block text-sm font-medium mb-2">หมวดหมู่</label>
-                            <select id="category-filter" class="w-full p-2 border rounded-md">
-                                <option value="">ทั้งหมด</option>
-                                <option value="handbag">กระเป๋าถือ</option>
-                                <option value="crossbody">สะพายข้าง</option>
-                                <option value="backpack">กระเป๋าเป้</option>
-                                <option value="wallet">กระเป๋าสตางค์</option>
-                            </select>
-                        </div>
-                        <div class="flex-1">
-                            <label class="block text-sm font-medium mb-2">ช่วงราคา</label>
-                            <select id="price-filter" class="w-full p-2 border rounded-md">
-                                <option value="">ทั้งหมด</option>
-                                <option value="0-1000">0 - 1,000 บาท</option>
-                                <option value="1000-2000">1,000 - 2,000 บาท</option>
-                                <option value="2000-3000">2,000 - 3,000 บาท</option>
-                                <option value="3000+">3,000+ บาท</option>
-                            </select>
-                        </div>
-                        <div class="flex-1">
-                            <label class="block text-sm font-medium mb-2">เรียงตาม</label>
-                            <select id="sort-filter" class="w-full p-2 border rounded-md">
-                                <option value="newest">ใหม่ล่าสุด</option>
-                                <option value="price-low">ราคาต่ำ - สูง</option>
-                                <option value="price-high">ราคาสูง - ต่ำ</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Products Grid -->
-                <div id="products-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    <!-- Products will be loaded here -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Product Detail Page -->
-<!-- ค้นหาส่วน Product Detail Page แล้วแทนที่ทั้งหมดด้วยโค้ดนี้ -->
-<!-- แก้ไขส่วน Product Detail Page -->
-<div id="product-page" class="page hidden">
-    <div class="max-w-6xl mx-auto px-4 py-8">
-        <!-- ปุ่มกลับ -->
-        <button onclick="goBack()" class="mb-4 text-gray-600 hover:text-gray-900 flex items-center">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-            </svg>
-            กลับ
-        </button>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- รูปภาพสินค้า -->
-            <div class="sticky top-20">
-                <div class="mb-4 aspect-w-1 aspect-h-1">
-                    <img id="main-image" src="" alt="" class="w-full h-full object-cover rounded-lg">
-                </div>
-                <div id="thumbnail-images" class="flex gap-2 overflow-x-auto hide-scrollbar">
-                    <!-- Thumbnails -->
-                </div>
-            </div>
-
-            <!-- ข้อมูลสินค้า -->
-            <div>
-                <h1 id="product-title" class="text-2xl font-bold mb-4"></h1>
-                <p id="product-price" class="text-3xl font-bold text-gray-900 mb-4"></p>
-                <div id="product-description" class="text-gray-600 mb-6"></div>
-                
-                <!-- เลือกสี -->
-                <div class="mb-6">
-                    <label class="block text-sm font-medium mb-2">เลือกสี</label>
-                    <div class="color-options-container">
-                        <div id="color-options" class="color-options-scroll">
-                            <!-- Color options -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- จำนวน -->
-                <div class="mb-6">
-                    <label class="block text-sm font-medium mb-2">จำนวน</label>
-                    <div class="flex items-center gap-3">
-                        <button onclick="changeQuantity(-1)" class="w-10 h-10 border rounded-md flex items-center justify-center hover:bg-gray-50">-</button>
-                        <span id="quantity" class="text-lg font-semibold min-w-[2rem] text-center">1</span>
-                        <button onclick="changeQuantity(1)" class="w-10 h-10 border rounded-md flex items-center justify-center hover:bg-gray-50">+</button>
-                    </div>
-                </div>
-
-                <!-- ปุ่มเพิ่มลงตะกร้า (Desktop) -->
-<div class="mb-6"> <!-- เปลี่ยนจาก hidden lg:block เป็น block -->
-    <button onclick="addToCart()" class="w-full bg-gray-900 text-white py-3 rounded-lg font-semibold hover:bg-gray-800">
-        เพิ่มลงตะกร้า
-    </button>
-                </div>
-            </div>
-
-
-                <!-- Category Link -->
-                <div id="category-link" class="text-sm text-gray-600">
-                    <!-- Category link will be loaded here -->
-                </div>
-
-        <!-- Cart Page -->
-        <div id="cart-page" class="page hidden">
-            <div class="max-w-4xl mx-auto px-4 py-8">
-                <h2 class="text-2xl font-bold mb-6">ตะกร้าสินค้า</h2>
-                
-                <div id="cart-items" class="space-y-4 mb-6">
-                    <!-- Cart items will be loaded here -->
-                </div>
-
-                <div id="cart-empty" class="text-center py-12 hidden">
-                    <p class="text-gray-500 mb-4">ตะกร้าสินค้าว่างเปล่า</p>
-                    <button onclick="showPage('products')" class="bg-gray-900 text-white px-6 py-2 rounded-lg">
-                        เลือกซื้อสินค้า
-                    </button>
-                </div>
-
-                <div id="cart-summary" class="bg-white p-6 rounded-lg shadow-sm">
-                    <div class="flex justify-between items-center text-xl font-bold mb-4">
-                        <span>ยอดรวมทั้งหมด</span>
-                        <span id="cart-total">฿0.00</span>
-                    </div>
-                    <button onclick="showPage('checkout')" class="w-full bg-gray-900 text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors">
-                        สรุปและชำระเงิน
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Checkout Page -->
-        <div id="checkout-page" class="page hidden">
-            <div class="max-w-4xl mx-auto px-4 py-8">
-                <h2 class="text-2xl font-bold mb-6">กรอกข้อมูลการจัดส่ง</h2>
-                
-                <form id="checkout-form" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium mb-2">ชื่อ-นามสกุล *</label>
-                            <input type="text" id="fullname" required class="w-full p-3 border rounded-md focus:ring-2 focus:ring-gray-900 focus:border-transparent">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium mb-2">ที่อยู่ *</label>
-                            <textarea id="address" required rows="3" class="w-full p-3 border rounded-md focus:ring-2 focus:ring-gray-900 focus:border-transparent"></textarea>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium mb-2">เบอร์โทรศัพท์ *</label>
-                            <input type="tel" id="phone" required pattern="[0-9]{10}" class="w-full p-3 border rounded-md focus:ring-2 focus:ring-gray-900 focus:border-transparent">
-                            <p class="text-sm text-gray-500 mt-1">กรุณากรอกเบอร์โทร 10 หลัก</p>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium mb-2">หมายเหตุการจัดส่ง</label>
-                            <textarea id="notes" rows="2" class="w-full p-3 border rounded-md focus:ring-2 focus:ring-gray-900 focus:border-transparent" placeholder="ข้อมูลเพิ่มเติม (ไม่บังคับ)"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="bg-gray-50 p-6 rounded-lg h-fit">
-                        <h3 class="text-lg font-semibold mb-4">สรุปคำสั่งซื้อ</h3>
-                        <div id="checkout-items" class="space-y-2 mb-4">
-                            <!-- Order items will be loaded here -->
-                        </div>
-                        <div class="border-t pt-4">
-                            <div class="flex justify-between items-center text-xl font-bold">
-                                <span>ยอดรวมทั้งหมด</span>
-                                <span id="checkout-total">฿0.00</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="lg:col-span-2">
-                        <button type="submit" class="w-full bg-gray-900 text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors">
-                            ยืนยันคำสั่งซื้อ (สร้างบิล)
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Bill Page -->
-        <div id="bill-page" class="page hidden">
-            <div class="max-w-4xl mx-auto px-4 py-8">
-                <div class="bg-white p-8 rounded-lg shadow-sm">
-                    <div class="text-center mb-8">
-                        <h2 class="text-2xl font-bold mb-2">ใบสั่งซื้อ</h2>
-                        <p id="order-id" class="text-lg font-semibold text-gray-600"></p>
-                        <p id="order-date" class="text-sm text-gray-500"></p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                        <div>
-                            <h3 class="font-semibold mb-2">ข้อมูลลูกค้า</h3>
-                            <div id="customer-info" class="text-sm text-gray-600">
-                                <!-- Customer info will be loaded here -->
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <h3 class="font-semibold mb-2">รายการสินค้า</h3>
-                            <div id="bill-items" class="text-sm">
-                                <!-- Bill items will be loaded here -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="border-t pt-4 mb-8">
-                        <div class="flex justify-between items-center text-xl font-bold">
-                            <span>ยอดรวมทั้งหมด</span>
-                            <span id="bill-total">฿0.00</span>
-                        </div>
-                    </div>
-
-                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-                        <p class="text-sm text-yellow-800">
-                            <strong>หมายเหตุ:</strong> ร้านยังไม่มีระบบจ่ายเงินในเว็บ — โปรดกด Copy รายการสั่งซื้อ แล้วส่งทาง LINE เพื่อยืนยันและชำระเงิน
-                        </p>
-                    </div>
-
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <button onclick="copyOrderDetails()" class="flex-1 bg-gray-100 text-gray-900 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-colors">
-                            Copy รายละเอียดออเดอร์
-                        </button>
-                        <button onclick="sendToLine()" class="flex-1 bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors">
-                            ส่งออเดอร์ทาง LINE
-                        </button>
-                    </div>
-
-                    <div class="text-center mt-6">
-                        <button onclick="showPage('home')" class="text-gray-600 hover:text-gray-900">
-                            กลับหน้าหลัก
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-    <!-- เพิ่มประมาณบรรทัด 600 หลัง </main> -->
-    <div class="fixed bottom-4 right-4 z-50 sm:hidden">
-    <button onclick="toggleCart()" class="bg-gray-900 text-white p-4 rounded-full shadow-lg">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h12M7 13h10m-10 0L5.4 5M7 13l1.5 6"></path>
-            </svg>
-            <span id="floating-cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
-        </button>
-    </div>
-    <!-- Cart Drawer -->
-<!-- Cart Drawer -->
-<div id="cart-drawer" class="fixed inset-0 z-50 hidden">
-    <div class="absolute inset-0 bg-black bg-opacity-50" onclick="toggleCart()"></div>
-    <div class="absolute inset-y-0 right-0 w-full max-w-md bg-white shadow-xl">
-        <div class="flex flex-col h-full">
-            <!-- หัวตะกร้า -->
-            <div class="flex items-center justify-between p-4 border-b">
-                <h3 class="text-lg font-semibold">ตะกร้าสินค้า</h3>
-                <button onclick="toggleCart()" class="text-gray-500 hover:text-gray-700">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-
-            <!-- รายการสินค้า -->
-            <div class="flex-1 overflow-y-auto p-4">
-                <div id="drawer-cart-items">
-                    <!-- Cart items -->
-                </div>
-            </div>
-
-            <!-- ส่วนล่าง -->
-            <div class="border-t p-4">
-                <div class="flex justify-between items-center mb-4">
-                    <span class="font-semibold">ยอดรวม</span>
-                    <span id="drawer-cart-total" class="font-bold"></span>
-                </div>
-                <button onclick="showPage('cart'); toggleCart();" class="w-full bg-gray-900 text-white py-3 rounded-lg font-semibold">
-                    ดูตะกร้าสินค้า
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
 
     <script>
-        // Store Configuration
-        const STORE_CONFIG = {
-            LINE_URL: 'https://lin.ee/t3Q1ODf', // เปลี่ยนเป็น LINE ID ของร้าน
-            BRAND_NAME: 'BagShop',
-            ADDRESS_NOTE: 'กรุณาระบุที่อยู่ให้ชัดเจนเพื่อการจัดส่ง'
-        };
+        // ข้อมูลสินค้าตัวอย่าง 30 รายการ
+        const products = [
+            { name: "ท็อปเปอร์ หนา4นิ้ว 3.5ฟุต/5ฟุต/6ฟุต", code: "A01", image: "sample1.jpg" , shopeeUrl: "https://s.shopee.co.th/60HmKvZh7j" },
+            { name: "กระเป๋าเป้สะพายหลัง 80ล.", code: "A02", image: "sample2.jpg", shopeeUrl: "https://s.shopee.co.th/6pqtI736Gq" },
+            { name: "ไฟแต่งห้อง 16 สี+รีโมท", code: "A03", image: "sample3.jpg", shopeeUrl: "https://s.shopee.co.th/5VLVn9X4cK" },
+            { name: "ปลาหมึกเต้นรำตลก สำหรับเด็ก", code: "A04", image: "sample4.jpg", shopeeUrl: "https://s.shopee.co.th/50PFCOCrDe" },
+            { name: "โคมไฟแมงกะพรุน ของตกแต่งห้อง", code: "A05", image: "sample5.jpg", shopeeUrl: "https://s.shopee.co.th/AKQlYIXzQj" },
+            { name: "มินิโปรเจคเตอร์ Project Android 12.0 5G WIFI บลูทูธ", code: "A06", image: "sample6.jpg", shopeeUrl: "https://s.shopee.co.th/9KYEMZIOwu" },
+            { name: "กระเป๋าเคสแข็งใส่อุปกรณ์อิเล็กทรอนิกส์ กันกระแทก", code: "A07", image: "sample7.jpg", shopeeUrl: "https://s.shopee.co.th/3VaRQ3cvqC" },
+            { name: "เครื่องลวกไข่ iEgg by InnoChef", code: "A08", image: "sample8.jpg", shopeeUrl: "https://s.shopee.co.th/7V6aBYB3yJ" },
+            { name: "สายยืดหลัง บรรเทาอาการหลังค่อม ออฟฟิศซินโดรม", code: "A09", image: "sample9.jpg", shopeeUrl: "https://s.shopee.co.th/3VaRQKNssC" },
+            { name: "Seaways ทำความสะอาดเครื่องซักผ้า", code: "A10", image: "sample10.jpg", shopeeUrl: "https://s.shopee.co.th/8AMGz2bsWH" },
+            { name: "ถุงมือล้างจาน ถุงมือล้างจานทำความสะอาด", code: "A11", image: "sample11.jpg", shopeeUrl: "https://s.shopee.co.th/1LVwqi9qgL" },
+            { name: "ลูกกลิ้งเก็บขน ยืดได้ ขนาด24cm ทำความสะอาด เส้นผมและฝุ่น", code: "A12", image: "sample12.jpg", shopeeUrl: "https://s.shopee.co.th/60HmPMXZRt" },
+            { name: "ไม้แหวน Pokemonโปเกมอนเหล็ก ไม่ซ้่ำใคร", code: "A13", image: "sample13.jpg", shopeeUrl: "https://s.shopee.co.th/9znvAk5MpX" },
+        ];
 
-        // Product Data - เพิ่มสินค้าใหม่ที่นี่
-const PRODUCTS = [
-    {
-        id: 1,
-        name: 'Goyard Alpin Mini Backpack',
-        price: 2490,
-        category: 'handbag',
-        images: ['photo/handbags1.jpg'],
-        colors: ['Black & Tan', 'Black', 'Grey', 'White', 'Red', 'Burgundy', 'Navy Blue', 'Sky Blue', 'Green', 'Yellow', 'Orange'],
-        description: 'กระเป๋าเป้ขนาดเล็กน้ำหนักเบา ดีไซน์หรู ทำจากผ้า Goyardine และหนังลูกวัว ใช้ได้หลายสไตล์ทั้งสะพายหลัง ข้าง หรือ crossbod.'
-    },
-    {
-        id: 2,
-        name: 'Goyard Saint Louis PM Bag',
-        price: 1890,
-        category: 'handbag',
-        images: ['photo/handbags2.jpg', 'photo/handbags3.jpg', 'photo/handbags4.jpg', 'photo/handbags5.jpg'],
-        colors: ['Black & Tan', 'Black', 'Grey', 'White', 'Red', 'Burgundy', 'Navy Blue', 'Sky Blue', 'Green', 'Yellow', 'Orange'],
-        description: 'กระเป๋าโท้ทขนาดกลางที่โดดเด่นด้วยลาย Goyardine อันเป็นเอกลักษณ์ น้ำหนักเบา ทนทาน กันน้ำได้ มาพร้อมซองใบเล็กถอดได้ เหมาะทั้งสำหรับใช้งานประจำวันและเป็นแฟชั่นไอเท็มคลาสสิก'
-    },
-    {
-        id: 3,
-        name: 'Goyard Saïgon Mini Bag Souple',
-        price: 3290,
-        category: 'handbag',
-        images: ['photo/handbags6.jpg'],
-        colors: ['Black & Tan', 'Black', 'Grey', 'White', 'Red', 'Burgundy', 'Navy Blue', 'Sky Blue', 'Green', 'Yellow', 'Orange'],
-        description: 'กระเป๋าถือขนาดเล็กที่ได้แรงบันดาลใจจากกล่องเดินทางโบราณของ Goyard โดดเด่นด้วยโครงไม้และหนังลูกวัวผสมผ้าใบ Goyardine น้ำหนักเบา ดีไซน์เรียบหรู มาพร้อมหูจับแข็งและสายสะพายถอดได้ ใช้งานได้ทั้งถือและสะพายข้าง เหมาะสำหรับโอกาสพิเศษและเพิ่มความคลาสสิกให้กับทุกลุค.'
-    },
-    {
-        id: 4,
-        name: 'Goyard Bohème Hobo Bag',
-        price: 890,
-        category: 'handbag',
-        images: ['photo/handbags7.jpg'],
-        colors: ['Black & Tan', 'Black', 'Grey', 'White', 'Red', 'Burgundy', 'Navy Blue', 'Sky Blue', 'Green', 'Yellow', 'Orange'],
-        description: 'กระเป๋าทรงโฮโบ่ที่ผสมผสานความเรียบง่ายและความอเนกประสงค์ น้ำหนักเบา ทำจากผ้าใบ Goyardine และหนังลูกวัว ดีไซน์แบบโค้งมนพอดีไหล่ มาพร้อมสายสะพายกว้างเพื่อความสบาย เหมาะกับการใช้งานประจำวัน ใส่ของได้เยอะโดยยังคงความหรูหราและเป็นเอกลักษณ์สไตล์ Goyard.'
-    },
-    {
-        id: 5,
-        name: 'Goyard Anjou Mini Bag',
-        price: 2190,
-        category: 'handbag',
-        images: ['photo/handbags8.jpg'],
-        colors: ['Black & Tan', 'Black', 'Grey', 'White', 'Red', 'Burgundy', 'Navy Blue', 'Sky Blue', 'Green', 'Yellow', 'Orange'],
-        description: 'กระเป๋าโท้ทขนาดเล็กที่โดดเด่นด้วยดีไซน์ รีเวอร์สซิเบิล (Reversible) ด้านหนึ่งเป็นผ้าใบ Goyardine เอกลักษณ์ อีกด้านเป็นหนังลูกวัวเรียบหรู น้ำหนักเบาแต่ทนทาน มาพร้อมซองใบเล็กถอดได้ ใช้งานได้ทั้งถือและสะพายไหล่ เหมาะสำหรับคนที่ชอบความคลาสสิกแต่ต้องการความยืดหยุ่นในการมิกซ์ลุค.'
-    },
-    {
-        id: 6,
-        name: 'Goyard Jouvence GM Toiletry Bag',
-        price: 1590,
-        category: 'handbag',
-        images: ['photo/handbags9.jpg', 'photo/handbags10.jpg'],
-        colors: ['Black & Tan', 'Black', 'Grey', 'White', 'Red', 'Burgundy', 'Navy Blue', 'Sky Blue', 'Green', 'Yellow', 'Orange'],
-        description: 'กระเป๋าอเนกประสงค์ขนาดใหญ่สำหรับใส่ของใช้ส่วนตัวและเครื่องสำอาง ผลิตจากผ้าใบ Goyardine เคลือบกันน้ำ ผสมหนังลูกวัว ด้านในบุด้วยวัสดุกันเปื้อน ทำความสะอาดง่าย ดีไซน์ทรงเหลี่ยมซิปยาวเปิดสะดวก เหมาะสำหรับใช้เป็นกระเป๋าเดินทางหรือเก็บของประจำวันอย่างเป็นระเบียบ ทั้งทนทานและคงความหรูหราในสไตล์ Goyard.'
-    },
-    {
-        id: 7,
-        name: 'Goyard Hardy PM Bag',
-        price: 4290,
-        category: 'handbag',
-        images: ['photo/handbags11.jpg'],
-        colors: ['Black & Tan', 'Black', 'Grey', 'White', 'Red', 'Burgundy', 'Navy Blue', 'Sky Blue', 'Green', 'Yellow', 'Orange'],
-        description: 'กระเป๋าโท้ทขนาดกลางที่ออกแบบมาให้เรียบหรูและใช้งานสะดวก ทำจากผ้าใบ Goyardine ผสมหนังลูกวัว น้ำหนักเบาและทนทาน ด้านในกว้างโปร่ง ใช้ใส่ของได้หลากหลาย พร้อมสายสะพายไหล่ที่พอดี ทำให้เหมาะทั้งการใช้งานประจำวันและเป็นแอคเซสซอรีแฟชั่นที่คงเอกลักษณ์ของ Goyard'
-    },
-    {
-        id: 8,
-        name: 'Goyard Beluga Mini Bag',
-        price: 690,
-        category: 'handbag',
-        images: ['photo/handbags13.jpg'],
-        colors: ['Black & Tan', 'Black', 'Grey', 'White', 'Red', 'Burgundy', 'Navy Blue', 'Sky Blue', 'Green', 'Yellow', 'Orange'],
-        description: 'กระเป๋ามินิที่เพรียวแต่แฝงความสง่างาม เรียบง่ายและใช้งานได้จริง บรรจุของสำคัญของคุณได้อย่างปลอดภัยผ่านซองด้านในที่ทำจากผ้าฝ้ายและลินิน พร้อมสายรัดแบบ drawstring เพิ่มความเป็นส่วนตัวและมิติให้ดีไซน์'
-    }
-];
+        // ตัวแปรสำหรับจัดการสถานะ
+        let filteredProducts = [...products];
+        let currentPage = 1;
+        const itemsPerPage = 12;
+        let currentQuery = '';
 
-        // Global State
-        let currentPage = 'home';
-        let currentProduct = null;
-        let currentQuantity = 1;
-        let selectedColor = '';
-        let cart = JSON.parse(localStorage.getItem('bagshop_cart')) || [];
-        let currentOrder = null;
-        let previousPage = 'home';
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            loadFeaturedProducts();
-            loadProductsGrid();
-            updateCartUI();
+        // อ่านค่าจาก URL เมื่อโหลดหน้า
+        function loadFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const query = urlParams.get('q') || '';
+            const page = parseInt(urlParams.get('page')) || 1;
             
-            // Add event listeners for filters
-            document.getElementById('category-filter').addEventListener('change', applyFilters);
-            document.getElementById('price-filter').addEventListener('change', applyFilters);
-            document.getElementById('sort-filter').addEventListener('change', applyFilters);
-            
-            // Add form submit listener
-            document.getElementById('checkout-form').addEventListener('submit', handleCheckout);
-        });
-
-        // Navigation Functions
-        function showPage(page) {
-            // Hide all pages
-            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
-            
-            // Store previous page
-            if (currentPage !== page) {
-                previousPage = currentPage;
-            }
-            
-            // Show selected page
-            document.getElementById(page + '-page').classList.remove('hidden');
+            document.getElementById('searchInput').value = query;
+            currentQuery = query;
             currentPage = page;
             
-            // Load page-specific content
-            if (page === 'products') {
-                loadProductsGrid();
-            } else if (page === 'cart') {
-                loadCartPage();
-            } else if (page === 'checkout') {
-                loadCheckoutPage();
-            }
-            
-            // Scroll to top
-            window.scrollTo(0, 0);
+            filterProducts();
         }
 
-        function goBack() {
-            showPage(previousPage);
+        // อัพเดท URL
+        function updateURL() {
+            const params = new URLSearchParams();
+            if (currentQuery) params.set('q', currentQuery);
+            if (currentPage > 1) params.set('page', currentPage);
+            
+            const newURL = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+            window.history.replaceState({}, '', newURL);
         }
 
-function showProduct(productId) {
-    const product = PRODUCTS.find(p => p.id === productId);
-    if (!product) {
-        console.error('Product not found:', productId);
-        return;
-    }
-    
-    currentProduct = product;
-    currentQuantity = 1;
-    selectedColor = product.colors[0];
-    
-    // Update product page content
-    document.getElementById('main-image').src = product.images[0];
-    document.getElementById('main-image').alt = product.name;
-    document.getElementById('product-title').textContent = product.name;
-    document.getElementById('product-price').textContent = formatPrice(product.price);
-    document.getElementById('product-description').textContent = product.description;
-    document.getElementById('quantity').textContent = '1';
-
-    // Load color options
-const colorContainer = document.getElementById('color-options');
-if (colorContainer) {
-    colorContainer.innerHTML = product.colors.map(color => `
-        <button 
-            onclick="selectColor('${color}')" 
-            class="color-option ${color === selectedColor ? 'selected' : ''}"
-        >
-            ${color}
-        </button>
-    `).join('');
-}
-
-    // Load thumbnail images
-    const thumbnailContainer = document.getElementById('thumbnail-images');
-    if (thumbnailContainer) {
-        thumbnailContainer.innerHTML = product.images.map((img, index) => `
-            <img 
-                src="${img}" 
-                alt="${product.name}" 
-                class="w-16 h-16 object-cover rounded cursor-pointer ${index === 0 ? 'border-2 border-gray-900' : 'border-2 border-transparent'}"
-                onclick="selectImage(${index})"
-            >
-        `).join('');
-    }
-
-    // Show product page
-    showPage('product');
-}
-
-        function selectImage(index) {
-            if (!currentProduct) return;
+        // ฟังก์ชันค้นหาและกรองสินค้า
+        function filterProducts() {
+            const query = currentQuery.toLowerCase().trim();
             
-            document.getElementById('main-image').src = currentProduct.images[index];
-            
-            // Update thumbnail borders
-            document.querySelectorAll('#thumbnail-images img').forEach((img, i) => {
-                img.className = `w-16 h-16 object-cover rounded cursor-pointer border-2 ${i === index ? 'border-gray-900' : 'border-gray-200'}`;
-            });
-        }
-
-// เพิ่มฟังก์ชันในส่วน script
-function selectColor(color) {
-    selectedColor = color;
-    
-    // อัพเดทการแสดงผลปุ่มสีทั้งหมด
-    document.querySelectorAll('#color-options .color-option').forEach(btn => {
-        if (btn.textContent.trim() === color) {
-            btn.classList.add('selected');
-        } else {
-            btn.classList.remove('selected');
-        }
-    });
-}
-
-// ปรับปรุงฟังก์ชัน updateCartUI
-function updateCartUI() {
-    const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-    
-    // อัพเดทตัวเลขบนไอคอนตะกร้า
-    const countElements = document.querySelectorAll('#cart-count, #floating-cart-count');
-    countElements.forEach(elem => {
-        if (cartCount > 0) {
-            elem.textContent = cartCount;
-            elem.classList.remove('hidden');
-        } else {
-            elem.classList.add('hidden');
-        }
-    });
-
-    // อัพเดทตะกร้า drawer
-    updateDrawerCart();
-}
-
-        function changeQuantity(delta) {
-            const newQuantity = currentQuantity + delta;
-            if (newQuantity >= 1) {
-                currentQuantity = newQuantity;
-                document.getElementById('quantity').textContent = currentQuantity;
-            }
-        }
-
-        // Product Loading Functions
-        function loadFeaturedProducts() {
-            const container = document.getElementById('featured-products');
-            const featuredProducts = PRODUCTS.slice(0, 4); // Show first 4 products
-            
-            container.innerHTML = featuredProducts.map(product => createProductCard(product)).join('');
-        }
-
-        function loadProductsGrid() {
-            const container = document.getElementById('products-grid');
-            container.innerHTML = PRODUCTS.map(product => createProductCard(product)).join('');
-            applyFilters();
-        }
-
-function createProductCard(product) {
-    const categoryNames = {
-        'handbag': 'กระเป๋าถือ',
-        'crossbody': 'สะพายข้าง',
-        'backpack': 'กระเป๋าเป้', 
-        'wallet': 'กระเป๋าสตางค์'
-    };
-    
-    return `
-        <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow cursor-pointer" 
-            onclick="showProduct(${product.id})" 
-            role="button"
-            tabindex="0">
-            <div class="aspect-w-1 aspect-h-1">
-                <img src="${product.images[0]}" alt="${product.name}" class="w-full h-48 object-cover">
-            </div>
-            <div class="p-4">
-                <div class="flex justify-between items-start mb-2">
-                    <h3 class="font-semibold text-sm line-clamp-2">${product.name}</h3>
-                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs ml-2 whitespace-nowrap">
-                        ${categoryNames[product.category]}
-                    </span>
-                </div>
-                <p class="text-lg font-bold text-gray-900">${formatPrice(product.price)}</p>
-            </div>
-        </div>
-    `;
-}
-
-        // Filter Functions
-        function filterByCategory(category) {
-            document.getElementById('category-filter').value = category;
-            showPage('products');
-    
-            // เพิ่มปุ่มกลับ
-            const container = document.getElementById('products-grid').parentElement;
-            const backButton = document.createElement('button');
-            backButton.className = 'mb-4 text-gray-600 hover:text-gray-900 flex items-center';
-            backButton.onclick = () => showPage('home');
-            backButton.innerHTML = `
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-        </svg>
-        กลับหน้าหลัก
-    `;
-    container.insertBefore(backButton, container.firstChild);
-    
-    applyFilters();
-}
-
-        function applyFilters() {
-            const categoryFilter = document.getElementById('category-filter').value;
-            const priceFilter = document.getElementById('price-filter').value;
-            const sortFilter = document.getElementById('sort-filter').value;
-            
-            let filteredProducts = [...PRODUCTS];
-            
-            // Apply category filter
-            if (categoryFilter) {
-                filteredProducts = filteredProducts.filter(p => p.category === categoryFilter);
-            }
-            
-            // Apply price filter
-            if (priceFilter) {
-                const [min, max] = priceFilter.split('-').map(p => p.replace('+', ''));
-                filteredProducts = filteredProducts.filter(p => {
-                    if (max) {
-                        return p.price >= parseInt(min) && p.price <= parseInt(max);
-                    } else {
-                        return p.price >= parseInt(min);
-                    }
-                });
-            }
-            
-            // Apply sorting
-            if (sortFilter === 'price-low') {
-                filteredProducts.sort((a, b) => a.price - b.price);
-            } else if (sortFilter === 'price-high') {
-                filteredProducts.sort((a, b) => b.price - a.price);
-            } else if (sortFilter === 'newest') {
-                filteredProducts.sort((a, b) => b.id - a.id);
-            }
-            
-            // Update grid
-            const container = document.getElementById('products-grid');
-            container.innerHTML = filteredProducts.map(product => createProductCard(product)).join('');
-        }
-
-        // Cart Functions
-        function addToCart() {
-            if (!currentProduct || !selectedColor) return;
-            
-            const cartItem = {
-                id: Date.now(), // Unique cart item ID
-                productId: currentProduct.id,
-                name: currentProduct.name,
-                price: currentProduct.price,
-                image: currentProduct.images[0],
-                color: selectedColor,
-                quantity: currentQuantity
-            };
-            
-            cart.push(cartItem);
-            saveCart();
-            updateCartUI();
-            
-            // Show success message
-            alert(`เพิ่ม ${currentProduct.name} (${selectedColor}) จำนวน ${currentQuantity} ชิ้น ลงตะกร้าแล้ว`);
-        }
-
-        function removeFromCart(cartItemId) {
-            cart = cart.filter(item => item.id !== cartItemId);
-            saveCart();
-            updateCartUI();
-            loadCartPage();
-        }
-
-        function updateCartQuantity(cartItemId, newQuantity) {
-            if (newQuantity <= 0) {
-                removeFromCart(cartItemId);
-                return;
-            }
-            
-            const item = cart.find(item => item.id === cartItemId);
-            if (item) {
-                item.quantity = newQuantity;
-                saveCart();
-                updateCartUI();
-                loadCartPage();
-            }
-        }
-
-        function saveCart() {
-            localStorage.setItem('bagshop_cart', JSON.stringify(cart));
-        }
-
-        function updateCartUI() {
-            const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-    
-            // อัพเดทตัวนับในตะกร้าปกติ
-            const countElement = document.getElementById('cart-count');
-            if (cartCount > 0) {
-                countElement.textContent = cartCount;
-                countElement.classList.remove('hidden');
+            if (query === '') {
+                filteredProducts = [...products];
             } else {
-        countElement.classList.add('hidden');
+                filteredProducts = products.filter(product => 
+                    product.name.toLowerCase().includes(query) || 
+                    product.code.toLowerCase().includes(query)
+                );
             }
-    
-            // อัพเดทตัวนับในตะกร้าลอย
-            const floatingCount = document.getElementById('floating-cart-count');
-            if (floatingCount) {
-                floatingCount.textContent = cartCount;
-                floatingCount.style.display = cartCount > 0 ? 'flex' : 'none';
-            }
-    
-    // ...existing code...
-}
-
-        function updateDrawerCart() {
-            const container = document.getElementById('drawer-cart-items');
             
-            if (cart.length === 0) {
-                container.innerHTML = '<p class="text-gray-500 text-center py-4">ตะกร้าสินค้าว่างเปล่า</p>';
+            // รีเซ็ตไปหน้า 1 เมื่อค้นหาใหม่
+            if (currentPage > Math.ceil(filteredProducts.length / itemsPerPage)) {
+                currentPage = 1;
+            }
+            
+            updateResultsInfo();
+            renderProducts();
+            renderPagination();
+            updateURL();
+        }
+
+        // แสดงข้อมูลผลลัพธ์
+        function updateResultsInfo() {
+            const resultsInfo = document.getElementById('resultsInfo');
+            const total = filteredProducts.length;
+            
+            if (currentQuery) {
+                resultsInfo.textContent = `พบ ${total} รายการ สำหรับ "${currentQuery}"`;
+            } else {
+                resultsInfo.textContent = `แสดงสินค้าทั้งหมด ${total} รายการ`;
+            }
+        }
+
+        // แสดงสินค้าในหน้าปัจจุบัน
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            const noResults = document.getElementById('noResults');
+            
+            if (filteredProducts.length === 0) {
+                grid.style.display = 'none';
+                noResults.style.display = 'block';
                 return;
             }
             
-            container.innerHTML = cart.map(item => `
-                <div class="flex items-center gap-3 py-2 border-b">
-                    <img src="${item.image}" alt="${item.name}" class="w-12 h-12 object-cover rounded">
-                    <div class="flex-1 min-w-0">
-                        <p class="text-sm font-medium truncate">${item.name}</p>
-                        <p class="text-xs text-gray-500">${item.color}</p>
-                        <p class="text-sm font-semibold">${formatPrice(item.price)} × ${item.quantity}</p>
+            grid.style.display = 'grid';
+            noResults.style.display = 'none';
+            
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const currentProducts = filteredProducts.slice(startIndex, endIndex);
+            
+            grid.innerHTML = currentProducts.map(product => `
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="photo/${product.image}" 
+                             alt="${product.name}" 
+                             style="width: 100%; height: 100%; object-fit: cover;"
+                             loading="lazy"
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='📷 รูปภาพไม่พร้อมใช้งาน';">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">${product.name}</h3>
+                        <div class="product-code">${product.code}</div>
+                        ${product.shopeeUrl ? `
+                            <a href="${product.shopeeUrl}" target="_blank" class="shopee-btn">
+                                <svg class="shopee-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                </svg>
+                                ซื้อเลย
+                            </a>
+                        ` : ''}
                     </div>
                 </div>
             `).join('');
         }
 
-        function toggleCart() {
-            const drawer = document.getElementById('cart-drawer');
-            drawer.classList.toggle('hidden');
-        }
-
-        function loadCartPage() {
-            const itemsContainer = document.getElementById('cart-items');
-            const emptyContainer = document.getElementById('cart-empty');
-            const summaryContainer = document.getElementById('cart-summary');
+        // แสดงปุ่มแบ่งหน้า
+        function renderPagination() {
+            const pagination = document.getElementById('pagination');
+            const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
             
-            if (cart.length === 0) {
-                itemsContainer.innerHTML = '';
-                emptyContainer.classList.remove('hidden');
-                summaryContainer.classList.add('hidden');
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
                 return;
             }
             
-            emptyContainer.classList.add('hidden');
-            summaryContainer.classList.remove('hidden');
+            let paginationHTML = '';
             
-            itemsContainer.innerHTML = cart.map(item => `
-                <div class="bg-white p-4 rounded-lg shadow-sm">
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded">
-                        <div class="flex-1">
-                            <h3 class="font-semibold">${item.name}</h3>
-                            <p class="text-sm text-gray-600">สี: ${item.color}</p>
-                            <p class="text-lg font-bold">${formatPrice(item.price)}</p>
-                        </div>
-                        <div class="flex items-center gap-2 justify-between sm:justify-end">
-                            <div class="flex items-center gap-2">
-                                <button onclick="updateCartQuantity(${item.id}, ${item.quantity - 1})" class="w-8 h-8 border rounded flex items-center justify-center hover:bg-gray-50">-</button>
-                                <span class="w-8 text-center">${item.quantity}</span>
-                                <button onclick="updateCartQuantity(${item.id}, ${item.quantity + 1})" class="w-8 h-8 border rounded flex items-center justify-center hover:bg-gray-50">+</button>
-                        </div>
-                        <div class="text-right">
-                                <p class="font-bold">${formatPrice(item.price * item.quantity)}</p>
-                                <button onclick="removeFromCart(${item.id})" class="text-red-500 hover:text-red-700 text-sm px-2 py-1 border border-red-500 rounded">ลบ</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `).join('');
-        }
-
-        function loadCheckoutPage() {
-            const itemsContainer = document.getElementById('checkout-items');
-            
-            itemsContainer.innerHTML = cart.map(item => `
-                <div class="flex justify-between text-sm">
-                    <span>${item.name} (${item.color}) × ${item.quantity}</span>
-                    <span>${formatPrice(item.price * item.quantity)}</span>
-                </div>
-            `).join('');
-        }
-
-        // Checkout Functions
-        function handleCheckout(e) {
-            e.preventDefault();
-            
-            const fullname = document.getElementById('fullname').value.trim();
-            const address = document.getElementById('address').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const notes = document.getElementById('notes').value.trim();
-            
-            // Validation
-            if (!fullname || !address || !phone) {
-                alert('กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน');
-                return;
-            }
-            
-            if (!/^[0-9]{10}$/.test(phone)) {
-                alert('กรุณากรอกเบอร์โทรศัพท์ 10 หลัก');
-                return;
-            }
-            
-            if (cart.length === 0) {
-                alert('ตะกร้าสินค้าว่างเปล่า');
-                return;
-            }
-            
-            // Create order
-            const now = new Date();
-            const orderDate = now.toLocaleDateString('th-TH', {
-                timeZone: 'Asia/Bangkok',
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit'
-            }).replace(/\//g, '');
-            
-            const orderTime = now.toLocaleString('th-TH', {
-                timeZone: 'Asia/Bangkok',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-            
-            const orderNumber = Math.floor(Math.random() * 9999).toString().padStart(4, '0');
-            const orderId = `ORDER-${orderDate}-${orderNumber}`;
-            
-            currentOrder = {
-                id: orderId,
-                date: orderTime,
-                customer: {
-                    fullname,
-                    address,
-                    phone,
-                    notes
-                },
-                items: [...cart],
-                total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
-            };
-            
-            // Clear cart
-            cart = [];
-            saveCart();
-            updateCartUI();
-            
-            // Show bill page
-            loadBillPage();
-            showPage('bill');
-        }
-
-        function loadBillPage() {
-            if (!currentOrder) return;
-            
-            document.getElementById('order-id').textContent = currentOrder.id;
-            document.getElementById('order-date').textContent = currentOrder.date;
-            
-            // Customer info
-            const customerInfo = document.getElementById('customer-info');
-            customerInfo.innerHTML = `
-                <p><strong>ชื่อ:</strong> ${currentOrder.customer.fullname}</p>
-                <p><strong>ที่อยู่:</strong> ${currentOrder.customer.address}</p>
-                <p><strong>เบอร์โทร:</strong> ${currentOrder.customer.phone}</p>
-                ${currentOrder.customer.notes ? `<p><strong>หมายเหตุ:</strong> ${currentOrder.customer.notes}</p>` : ''}
+            // ปุ่มย้อนกลับ
+            paginationHTML += `
+                <button class="page-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                    ← ก่อนหน้า
+                </button>
             `;
             
-            // Bill items
-            const billItems = document.getElementById('bill-items');
-            billItems.innerHTML = currentOrder.items.map(item => `
-                <div class="flex justify-between py-1">
-                    <span>${item.name} (${item.color}) × ${item.quantity}</span>
-                    <span>${formatPrice(item.price * item.quantity)}</span>
-                </div>
-            `).join('');
-        }
-
-        function copyOrderDetails() {
-            if (!currentOrder) return;
+            // หมายเลขหน้า
+            const startPage = Math.max(1, currentPage - 2);
+            const endPage = Math.min(totalPages, currentPage + 2);
             
-            const orderText = `
-🛍️ รายการสั่งซื้อ ${STORE_CONFIG.BRAND_NAME}
-
-📋 รหัสออเดอร์: ${currentOrder.id}
-📅 วันที่: ${currentOrder.date}
-
-👤 ข้อมูลลูกค้า:
-ชื่อ: ${currentOrder.customer.fullname}
-ที่อยู่: ${currentOrder.customer.address}
-เบอร์โทร: ${currentOrder.customer.phone}
-${currentOrder.customer.notes ? `หมายเหตุ: ${currentOrder.customer.notes}` : ''}
-
-🛒 รายการสินค้า:
-${currentOrder.items.map(item => `• ${item.name} (${item.color}) × ${item.quantity} = ${formatPrice(item.price * item.quantity)}`).join('\n')}
-
-💰 ยอดรวมทั้งหมด: ${formatPrice(currentOrder.total)}
-
-กรุณายืนยันการสั่งซื้อและแจ้งการชำระเงินค่ะ
-            `.trim();
-            
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(orderText).then(() => {
-                    alert('คัดลอกรายละเอียดออเดอร์แล้ว');
-                }).catch(() => {
-                    fallbackCopyText(orderText);
-                });
-            } else {
-                fallbackCopyText(orderText);
-            }
-        }
-
-        function fallbackCopyText(text) {
-            const textArea = document.createElement('textarea');
-            textArea.value = text;
-            textArea.style.position = 'fixed';
-            textArea.style.left = '-999999px';
-            textArea.style.top = '-999999px';
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            
-            try {
-                document.execCommand('copy');
-                alert('คัดลอกรายละเอียดออเดอร์แล้ว');
-            } catch (err) {
-                alert('ไม่สามารถคัดลอกได้ กรุณาคัดลอกด้วยตนเอง');
+            if (startPage > 1) {
+                paginationHTML += `<button class="page-btn" onclick="changePage(1)">1</button>`;
+                if (startPage > 2) {
+                    paginationHTML += `<span class="page-btn" style="border: none; cursor: default;">...</span>`;
+                }
             }
             
-            document.body.removeChild(textArea);
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHTML += `
+                    <button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">
+                        ${i}
+                    </button>
+                `;
+            }
+            
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    paginationHTML += `<span class="page-btn" style="border: none; cursor: default;">...</span>`;
+                }
+                paginationHTML += `<button class="page-btn" onclick="changePage(${totalPages})">${totalPages}</button>`;
+            }
+            
+            // ปุ่มถัดไป
+            paginationHTML += `
+                <button class="page-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                    ถัดไป →
+                </button>
+            `;
+            
+            pagination.innerHTML = paginationHTML;
         }
 
-        function sendToLine() {
-            if (!currentOrder) return;
+        // เปลี่ยนหน้า
+        function changePage(page) {
+            const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+            if (page < 1 || page > totalPages) return;
             
-            const orderText = `🛍️ รายการสั่งซื้อ ${STORE_CONFIG.BRAND_NAME}
-
-📋 รหัสออเดอร์: ${currentOrder.id}
-👤 ชื่อ: ${currentOrder.customer.fullname}
-📞 เบอร์โทร: ${currentOrder.customer.phone}
-💰 ยอดรวม: ${formatPrice(currentOrder.total)}
-
-กรุณายืนยันการสั่งซื้อและแจ้งการชำระเงินค่ะ`;
+            currentPage = page;
+            renderProducts();
+            renderPagination();
+            updateURL();
             
-            const encodedText = encodeURIComponent(orderText);
-            const lineUrl = `${STORE_CONFIG.LINE_URL}?text=${encodedText}`;
-            
-            window.open(lineUrl, '_blank');
+            // เลื่อนขึ้นไปด้านบน
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Utility Functions
-        function formatPrice(price) {
-            return `฿${price.toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-        }
+        // Event Listeners
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            currentQuery = e.target.value;
+            currentPage = 1; // รีเซ็ตไปหน้า 1 เมื่อค้นหาใหม่
+            filterProducts();
+        });
+
+        // โหลดข้อมูลเมื่อเริ่มต้น
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFromURL();
+        });
+
+        // จัดการ browser back/forward
+        window.addEventListener('popstate', function() {
+            loadFromURL();
+        });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'974871d3d3a3893f',t:'MTc1NjA5NzE3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'976878ed817fa1ae',t:'MTc1NjQzMzAxMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
